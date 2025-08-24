@@ -6,17 +6,20 @@ local playerGui = player:WaitForChild("PlayerGui")
 -- Criação do GUI
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "KakahHubGUI"
+screenGui.ResetOnSpawn = false
 screenGui.Parent = playerGui
 
 -- Painel principal
 local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 450, 0, 250)
-frame.Position = UDim2.new(0.5, -225, 0.3, 0)
-frame.BackgroundColor3 = Color3.fromRGB(255, 0, 0) -- todo vermelho
+frame.Size = UDim2.new(0, 900, 0, 250) -- largura 900
+frame.Position = UDim2.new(0.5, -450, 0.3, 0) -- centralizado
+frame.BackgroundColor3 = Color3.fromRGB(255, 0, 0) -- vermelho
 frame.Visible = true
+frame.Active = true
+frame.Draggable = true -- permite arrastar
 frame.Parent = screenGui
 
--- Título do painel
+-- Título
 local title = Instance.new("TextLabel")
 title.Size = UDim2.new(1, 0, 0, 40)
 title.Position = UDim2.new(0, 0, 0, 0)
@@ -38,12 +41,12 @@ toggleButton.Font = Enum.Font.SourceSansBold
 toggleButton.TextScaled = true
 toggleButton.Parent = frame
 
--- Função de abrir/fechar
+-- Função abrir/fechar
 toggleButton.MouseButton1Click:Connect(function()
     frame.Visible = not frame.Visible
 end)
 
--- Exemplo de conteúdo interno do hub (pode colocar funções depois)
+-- Exemplo de conteúdo interno
 local contentLabel = Instance.new("TextLabel")
 contentLabel.Size = UDim2.new(1, -20, 1, -60)
 contentLabel.Position = UDim2.new(0, 10, 0, 50)
