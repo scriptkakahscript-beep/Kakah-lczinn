@@ -1,4 +1,4 @@
--- LocalScript - Kakah Hub com aba Fun
+-- LocalScript - Kakah Hub com abas internas
 
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
@@ -25,7 +25,7 @@ introText.TextScaled = true
 introText.Font = Enum.Font.SourceSansBold
 introText.Parent = introFrame
 
--- Hub Icon
+-- Ícone do Hub
 local hubIcon = Instance.new("TextButton")
 hubIcon.Size = UDim2.new(0, 50, 0, 50)
 hubIcon.Position = UDim2.new(0, 20, 0, 20)
@@ -109,17 +109,16 @@ funButton.Font = Enum.Font.SourceSansBold
 funButton.TextScaled = true
 funButton.Parent = frame
 
--- Painel interno da aba Fun
-local funFrame = Instance.new("Frame")
-funFrame.Size = UDim2.new(0, 880, 0, 300)
-funFrame.Position = UDim2.new(0, 10, 0, 230)
-funFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-funFrame.Visible = false
-funFrame.Parent = frame
+-- Frame da página Fun
+local funPage = Instance.new("Frame")
+funPage.Size = UDim2.new(0, 880, 0, 300)
+funPage.Position = UDim2.new(0, 10, 0, 230)
+funPage.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+funPage.Visible = false -- começa invisível
+funPage.Parent = frame
+Instance.new("UICorner", funPage).CornerRadius = UDim.new(0, 10)
 
-Instance.new("UICorner", funFrame).CornerRadius = UDim.new(0, 10)
-
--- Botão Noclip
+-- Botões dentro da aba Fun
 local noclipButton = Instance.new("TextButton")
 noclipButton.Size = UDim2.new(0, 150, 0, 50)
 noclipButton.Position = UDim2.new(0, 20, 0, 20)
@@ -128,31 +127,8 @@ noclipButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 noclipButton.Text = "Noclip"
 noclipButton.Font = Enum.Font.SourceSansBold
 noclipButton.TextScaled = true
-noclipButton.Parent = funFrame
+noclipButton.Parent = funPage
 
--- Função básica Noclip
-local noclipEnabled = false
-noclipButton.MouseButton1Click:Connect(function()
-    noclipEnabled = not noclipEnabled
-    if noclipEnabled then
-        noclipButton.Text = "Noclip ON"
-    else
-        noclipButton.Text = "Noclip OFF"
-    end
-end)
-
--- Ativar Noclip
-game:GetService("RunService").Stepped:Connect(function()
-    if noclipEnabled then
-        for _, part in ipairs(player.Character:GetDescendants()) do
-            if part:IsA("BasePart") then
-                part.CanCollide = false
-            end
-        end
-    end
-end)
-
--- Botão Speed
 local speedButton = Instance.new("TextButton")
 speedButton.Size = UDim2.new(0, 150, 0, 50)
 speedButton.Position = UDim2.new(0, 200, 0, 20)
@@ -161,25 +137,43 @@ speedButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 speedButton.Text = "Speed"
 speedButton.Font = Enum.Font.SourceSansBold
 speedButton.TextScaled = true
-speedButton.Parent = funFrame
+speedButton.Parent = funPage
 
--- Velocidade até 100
+-- Noclip toggle
+local noclipEnabled = false
+noclipButton.MouseButton1Click:Connect(function()
+    noclipEnabled = not noclipEnabled
+    noclipButton.Text = noclipEnabled and "Noclip ON" or "Noclip OFF"
+end)
+
+game:GetService("RunService").Stepped:Connect(function()
+    if noclipEnabled and player.Character then
+        for _, part in ipairs(player.Character:GetDescendants()) do
+            if part:IsA("BasePart") then
+                part.CanCollide = false
+            end
+        end
+    end
+end)
+
+-- Speed toggle até 100
 local speedValue = 50
 speedButton.MouseButton1Click:Connect(function()
     speedValue = speedValue + 10
-    if speedValue > 100 then speedValue = 16 end -- volta ao normal
-    player.Character.Humanoid.WalkSpeed = speedValue
+    if speedValue > 100 then speedValue = 16 end
+    if player.Character and player.Character:FindFirstChild("Humanoid") then
+        player.Character.Humanoid.WalkSpeed = speedValue
+    end
     speedButton.Text = "Speed: " .. speedValue
 end)
 
--- Mostrar/ocultar a aba Fun
+-- Mostrar a página Fun e ocultar outras (se houver)
 funButton.MouseButton1Click:Connect(function()
-    funFrame.Visible = not funFrame.Visible
+    funPage.Visible = true
+    -- aqui você poderia ocultar outras abas se existirem
 end)
 
--- =======================
 -- Abrir Hub automaticamente após introdução
--- =======================
 delay(7, function()
     introFrame:Destroy()
     frame.Visible = true
