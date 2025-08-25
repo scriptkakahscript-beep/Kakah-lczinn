@@ -1,4 +1,4 @@
--- LocalScript - Kakah Hub com criadores estilizados
+-- LocalScript - Kakah Hub com lista completa de criadores
 
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
@@ -87,27 +87,18 @@ contentLabel.TextWrapped = true
 contentLabel.Font = Enum.Font.SourceSansBold
 contentLabel.Parent = frame
 
--- Lista de criadores
-local creators = {"ajuntantes lczin", "Ninja", "Lolyta"}
-local startY = 100
-
-for i, name in ipairs(creators) do
-    local creatorFrame = Instance.new("Frame")
-    creatorFrame.Size = UDim2.new(0, 200, 0, 40)
-    creatorFrame.Position = UDim2.new(0, 10, 0, startY + (i-1)*50)
-    creatorFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-    creatorFrame.Parent = frame
-    Instance.new("UICorner", creatorFrame).CornerRadius = UDim.new(0, 8)
-    
-    local creatorLabel = Instance.new("TextLabel")
-    creatorLabel.Size = UDim2.new(1, 0, 1, 0)
-    creatorLabel.BackgroundTransparency = 1
-    creatorLabel.Text = name
-    creatorLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-    creatorLabel.TextScaled = true
-    creatorLabel.Font = Enum.Font.SourceSansBold
-    creatorLabel.Parent = creatorFrame
-end
+-- Seção de Criadores (lista completa)
+local creatorsLabel = Instance.new("TextLabel")
+creatorsLabel.Size = UDim2.new(1, -20, 0, 100)
+creatorsLabel.Position = UDim2.new(0, 10, 0, 100)
+creatorsLabel.BackgroundTransparency = 1
+creatorsLabel.Text = "👑 Criadores:\najuntantes lczin\nNinja\nLolyta"
+creatorsLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+creatorsLabel.TextScaled = true
+creatorsLabel.TextWrapped = true
+creatorsLabel.Font = Enum.Font.SourceSans
+creatorsLabel.TextYAlignment = Enum.TextYAlignment.Top
+creatorsLabel.Parent = frame
 
 hubIcon.MouseButton1Click:Connect(function()
     frame.Visible = not frame.Visible
