@@ -1,17 +1,18 @@
--- LocalScript - Kakah Hub Completo Final com TikTok
+-- LocalScript - Kakah Hub Final com Fun
 
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
-local playerGui = player:WaitForChild("PlayerGui")
-local GuiService = game:GetService("GuiService")
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
 
--- ScreenGui
+-- GUI
+local playerGui = player:WaitForChild("PlayerGui")
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "KakahHubGUI"
 screenGui.ResetOnSpawn = false
 screenGui.Parent = playerGui
 
--- Tela de introdução
+-- Intro
 local introFrame = Instance.new("Frame")
 introFrame.Size = UDim2.new(1,0,1,0)
 introFrame.BackgroundColor3 = Color3.fromRGB(255,0,0)
@@ -36,11 +37,10 @@ frame.Draggable = true
 frame.Visible = false
 frame.Parent = screenGui
 Instance.new("UICorner", frame).CornerRadius = UDim.new(0,12)
-local UIStroke = Instance.new("UIStroke", frame)
-UIStroke.Thickness = 2
-UIStroke.Color = Color3.fromRGB(255,255,255)
+local stroke = Instance.new("UIStroke", frame)
+stroke.Thickness = 2
+stroke.Color = Color3.fromRGB(255,255,255)
 
--- Título Hub
 local title = Instance.new("TextLabel")
 title.Size = UDim2.new(1,-50,0,40)
 title.Position = UDim2.new(0,10,0,0)
@@ -51,7 +51,6 @@ title.TextScaled = true
 title.Font = Enum.Font.SourceSansBold
 title.Parent = frame
 
--- Botão fechar
 local closeButton = Instance.new("TextButton")
 closeButton.Size = UDim2.new(0,40,0,40)
 closeButton.Position = UDim2.new(1,-45,0,5)
@@ -65,82 +64,60 @@ closeButton.MouseButton1Click:Connect(function()
     frame.Visible = false
 end)
 
--- Ícone funcional do Hub
-local hubIcon = Instance.new("TextButton")
-hubIcon.Size = UDim2.new(0,50,0,50)
-hubIcon.Position = UDim2.new(0,20,0,20)
-hubIcon.BackgroundColor3 = Color3.fromRGB(0,0,0)
-hubIcon.Text = "☰"
-hubIcon.TextColor3 = Color3.fromRGB(255,255,255)
-hubIcon.Font = Enum.Font.SourceSansBold
-hubIcon.TextScaled = true
-hubIcon.Parent = screenGui
-hubIcon.ZIndex = 10
-hubIcon.MouseButton1Click:Connect(function()
-    frame.Visible = not frame.Visible
-    if not frame.Visible then
-        funPage.Visible = false
-        avatarPage.Visible = false
-        creditsPage.Visible = false
-    end
-end)
+-- Função criar página
+local function createPage(name, buttonY)
+    local button = Instance.new("TextButton")
+    button.Size = UDim2.new(0,120,0,40)
+    button.Position = UDim2.new(0,10,0,buttonY)
+    button.BackgroundColor3 = Color3.fromRGB(0,0,0)
+    button.TextColor3 = Color3.fromRGB(255,255,255)
+    button.Text = name
+    button.Font = Enum.Font.SourceSansBold
+    button.TextScaled = true
+    button.Parent = frame
 
--- ===========================
--- Aba Créditos
--- ===========================
-local creditsButton = Instance.new("TextButton")
-creditsButton.Size = UDim2.new(0,120,0,40)
-creditsButton.Position = UDim2.new(0,10,0,130)
-creditsButton.BackgroundColor3 = Color3.fromRGB(0,0,0)
-creditsButton.TextColor3 = Color3.fromRGB(255,255,255)
-creditsButton.Text = "Créditos"
-creditsButton.Font = Enum.Font.SourceSansBold
-creditsButton.TextScaled = true
-creditsButton.Parent = frame
+    local page = Instance.new("Frame")
+    page.Size = UDim2.new(1,-20,1,-50)
+    page.Position = UDim2.new(0,10,0,50)
+    page.BackgroundColor3 = Color3.fromRGB(255,0,0)
+    page.Visible = false
+    page.Parent = frame
+    Instance.new("UICorner", page).CornerRadius = UDim.new(0,10)
 
-local creditsPage = Instance.new("Frame")
-creditsPage.Size = UDim2.new(1,-20,1,-50)
-creditsPage.Position = UDim2.new(0,10,0,50)
-creditsPage.BackgroundColor3 = Color3.fromRGB(255,0,0)
-creditsPage.Visible = false
-creditsPage.Parent = frame
-Instance.new("UICorner", creditsPage).CornerRadius = UDim.new(0,10)
+    local back = Instance.new("TextButton")
+    back.Size = UDim2.new(0,100,0,40)
+    back.Position = UDim2.new(1,-120,0,10)
+    back.BackgroundColor3 = Color3.fromRGB(0,0,0)
+    back.TextColor3 = Color3.fromRGB(255,255,255)
+    back.Text = "Voltar"
+    back.Font = Enum.Font.SourceSansBold
+    back.TextScaled = true
+    back.Parent = page
+    back.MouseButton1Click:Connect(function()
+        page.Visible = false
+    end)
 
--- Nomes menores dos criadores
-local creators = {"Kakah","ajuntantes lczin","Ninja","Lolyta"}
-local creatorsLabel = Instance.new("TextLabel")
-creatorsLabel.Size = UDim2.new(1,-20,1,-50)
-creatorsLabel.Position = UDim2.new(0,10,0,50)
-creatorsLabel.BackgroundTransparency = 1
-creatorsLabel.TextColor3 = Color3.fromRGB(255,255,255)
-creatorsLabel.TextScaled = false
-creatorsLabel.TextSize = 30
-creatorsLabel.TextWrapped = true
-creatorsLabel.Font = Enum.Font.SourceSans
-creatorsLabel.TextYAlignment = Enum.TextYAlignment.Top
-creatorsLabel.Parent = creditsPage
+    button.MouseButton1Click:Connect(function()
+        page.Visible = not page.Visible
+    end)
 
-local text = "👑 Criadores:\n"
-for _,name in ipairs(creators) do
-    text = text..name.."\n"
+    return page
 end
-creatorsLabel.Text = text
 
--- Botão Voltar CreditsPage
-local creditsBackButton = Instance.new("TextButton")
-creditsBackButton.Size = UDim2.new(0,100,0,40)
-creditsBackButton.Position = UDim2.new(1,-120,0,10)
-creditsBackButton.BackgroundColor3 = Color3.fromRGB(0,0,0)
-creditsBackButton.TextColor3 = Color3.fromRGB(255,255,255)
-creditsBackButton.Text = "Voltar"
-creditsBackButton.Font = Enum.Font.SourceSansBold
-creditsBackButton.TextScaled = true
-creditsBackButton.Parent = creditsPage
-creditsBackButton.MouseButton1Click:Connect(function()
-    creditsPage.Visible = false
-end)
+-- Créditos
+local creditsPage = createPage("Créditos",130)
+local creators = {"Kakah","ajuntantes lczin","Ninja","Lolyta"}
+local creditsLabel = Instance.new("TextLabel")
+creditsLabel.Size = UDim2.new(1,-20,1,-50)
+creditsLabel.Position = UDim2.new(0,10,0,50)
+creditsLabel.BackgroundTransparency = 1
+creditsLabel.TextColor3 = Color3.fromRGB(255,255,255)
+creditsLabel.TextSize = 30
+creditsLabel.Font = Enum.Font.SourceSans
+creditsLabel.TextYAlignment = Enum.TextYAlignment.Top
+creditsLabel.Text = "👑 Criadores:\n"..table.concat(creators, "\n")
+creditsLabel.Parent = creditsPage
 
--- Botão TikTok
 local tiktokButton = Instance.new("TextButton")
 tiktokButton.Size = UDim2.new(0,200,0,40)
 tiktokButton.Position = UDim2.new(1,-220,0,50)
@@ -151,91 +128,117 @@ tiktokButton.Font = Enum.Font.SourceSansBold
 tiktokButton.TextScaled = true
 tiktokButton.Parent = creditsPage
 tiktokButton.MouseButton1Click:Connect(function()
-    GuiService:OpenBrowserWindow("https://www.tiktok.com/@kaykaka2?_t=ZM-8zA4oJ0BjV8&_r=1")
+    if setclipboard then
+        setclipboard("https://www.tiktok.com/@kaykaka2")
+    end
 end)
 
-creditsButton.MouseButton1Click:Connect(function()
-    creditsPage.Visible = not creditsPage.Visible
+-- Fun
+local funPage = createPage("Fun",180)
+
+-- Botão Speed
+local speedOn = false
+local speedButton = Instance.new("TextButton")
+speedButton.Size = UDim2.new(0,200,0,40)
+speedButton.Position = UDim2.new(0,20,0,60)
+speedButton.BackgroundColor3 = Color3.fromRGB(0,0,0)
+speedButton.TextColor3 = Color3.fromRGB(255,255,255)
+speedButton.Text = "Ativar Speed"
+speedButton.Font = Enum.Font.SourceSansBold
+speedButton.TextScaled = true
+speedButton.Parent = funPage
+speedButton.MouseButton1Click:Connect(function()
+    speedOn = not speedOn
+    humanoid.WalkSpeed = speedOn and 100 or 16
+    speedButton.Text = speedOn and "Desativar Speed" or "Ativar Speed"
 end)
 
--- ===========================
--- Aba Fun
--- ===========================
-local funButton = Instance.new("TextButton")
-funButton.Size = UDim2.new(0,100,0,40)
-funButton.Position = UDim2.new(0,10,0,180)
-funButton.BackgroundColor3 = Color3.fromRGB(0,0,0)
-funButton.TextColor3 = Color3.fromRGB(255,255,255)
-funButton.Text = "Fun"
-funButton.Font = Enum.Font.SourceSansBold
-funButton.TextScaled = true
-funButton.Parent = frame
-
-local funPage = Instance.new("Frame")
-funPage.Size = UDim2.new(1,-20,1,-50)
-funPage.Position = UDim2.new(0,10,0,50)
-funPage.BackgroundColor3 = Color3.fromRGB(255,0,0)
-funPage.Visible = false
-funPage.Parent = frame
-Instance.new("UICorner", funPage).CornerRadius = UDim.new(0,10)
-
-local backButton = Instance.new("TextButton")
-backButton.Size = UDim2.new(0,100,0,40)
-backButton.Position = UDim2.new(1,-120,0,10)
-backButton.BackgroundColor3 = Color3.fromRGB(0,0,0)
-backButton.TextColor3 = Color3.fromRGB(255,255,255)
-backButton.Text = "Voltar"
-backButton.Font = Enum.Font.SourceSansBold
-backButton.TextScaled = true
-backButton.Parent = funPage
-backButton.MouseButton1Click:Connect(function()
-    funPage.Visible = false
+-- Botão Jump
+local jumpOn = false
+local jumpButton = Instance.new("TextButton")
+jumpButton.Size = UDim2.new(0,200,0,40)
+jumpButton.Position = UDim2.new(0,20,0,110)
+jumpButton.BackgroundColor3 = Color3.fromRGB(0,0,0)
+jumpButton.TextColor3 = Color3.fromRGB(255,255,255)
+jumpButton.Text = "Ativar Super Jump"
+jumpButton.Font = Enum.Font.SourceSansBold
+jumpButton.TextScaled = true
+jumpButton.Parent = funPage
+jumpButton.MouseButton1Click:Connect(function()
+    jumpOn = not jumpOn
+    humanoid.JumpPower = jumpOn and 200 or 50
+    jumpButton.Text = jumpOn and "Desativar Super Jump" or "Ativar Super Jump"
 end)
 
-funButton.MouseButton1Click:Connect(function()
-    funPage.Visible = not funPage.Visible
+-- Botão Rainbow Name
+local rainbowOn = false
+local rainbowButton = Instance.new("TextButton")
+rainbowButton.Size = UDim2.new(0,200,0,40)
+rainbowButton.Position = UDim2.new(0,20,0,160)
+rainbowButton.BackgroundColor3 = Color3.fromRGB(0,0,0)
+rainbowButton.TextColor3 = Color3.fromRGB(255,255,255)
+rainbowButton.Text = "Ativar Rainbow Name"
+rainbowButton.Font = Enum.Font.SourceSansBold
+rainbowButton.TextScaled = true
+rainbowButton.Parent = funPage
+
+rainbowButton.MouseButton1Click:Connect(function()
+    rainbowOn = not rainbowOn
+    rainbowButton.Text = rainbowOn and "Desativar Rainbow Name" or "Ativar Rainbow Name"
+    if rainbowOn then
+        spawn(function()
+            local head = character:WaitForChild("Head")
+            local billboard = head:FindFirstChild("BillboardGui")
+            if not billboard then
+                billboard = Instance.new("BillboardGui", head)
+                billboard.Size = UDim2.new(0,200,0,50)
+                billboard.AlwaysOnTop = true
+                local nameLabel = Instance.new("TextLabel", billboard)
+                nameLabel.Size = UDim2.new(1,0,1,0)
+                nameLabel.BackgroundTransparency = 1
+                nameLabel.Font = Enum.Font.SourceSansBold
+                nameLabel.TextScaled = true
+                nameLabel.Text = player.Name
+                nameLabel.Name = "NameLabel"
+            end
+            local label = billboard:FindFirstChild("NameLabel")
+            while rainbowOn and label do
+                for i = 0,1,0.01 do
+                    label.TextColor3 = Color3.fromHSV(i,1,1)
+                    task.wait(0.05)
+                end
+            end
+        end)
+    end
 end)
 
--- ===========================
--- Aba Avatar
--- ===========================
-local avatarButton = Instance.new("TextButton")
-avatarButton.Size = UDim2.new(0,100,0,40)
-avatarButton.Position = UDim2.new(0,10,0,230)
-avatarButton.BackgroundColor3 = Color3.fromRGB(0,0,0)
-avatarButton.TextColor3 = Color3.fromRGB(255,255,255)
-avatarButton.Text = "Avatar"
-avatarButton.Font = Enum.Font.SourceSansBold
-avatarButton.TextScaled = true
-avatarButton.Parent = frame
+-- Avatar
+local avatarPage = createPage("Avatar",230)
 
-local avatarPage = Instance.new("Frame")
-avatarPage.Size = UDim2.new(1,-20,1,-50)
-avatarPage.Position = UDim2.new(0,10,0,50)
-avatarPage.BackgroundColor3 = Color3.fromRGB(255,0,0)
-avatarPage.Visible = false
-avatarPage.Parent = frame
-Instance.new("UICorner", avatarPage).CornerRadius = UDim.new(0,10)
+-- Ícone
+local hubIcon = Instance.new("TextButton")
+hubIcon.Size = UDim2.new(0,50,0,50)
+hubIcon.Position = UDim2.new(0,20,0,20)
+hubIcon.BackgroundColor3 = Color3.fromRGB(0,0,0)
+hubIcon.Text = "☰"
+hubIcon.TextColor3 = Color3.fromRGB(255,255,255)
+hubIcon.Font = Enum.Font.SourceSansBold
+hubIcon.TextScaled = true
+hubIcon.Parent = screenGui
+hubIcon.ZIndex = 10
+hubIcon.Visible = false
 
-local avatarBackButton = Instance.new("TextButton")
-avatarBackButton.Size = UDim2.new(0,100,0,40)
-avatarBackButton.Position = UDim2.new(1,-120,0,10)
-avatarBackButton.BackgroundColor3 = Color3.fromRGB(0,0,0)
-avatarBackButton.TextColor3 = Color3.fromRGB(255,255,255)
-avatarBackButton.Text = "Voltar"
-avatarBackButton.Font = Enum.Font.SourceSansBold
-avatarBackButton.TextScaled = true
-avatarBackButton.Parent = avatarPage
-avatarBackButton.MouseButton1Click:Connect(function()
-    avatarPage.Visible = false
+hubIcon.MouseButton1Click:Connect(function()
+    frame.Visible = not frame.Visible
+    if not frame.Visible then
+        funPage.Visible = false
+        avatarPage.Visible = false
+        creditsPage.Visible = false
+    end
 end)
 
-avatarButton.MouseButton1Click:Connect(function()
-    avatarPage.Visible = not avatarPage.Visible
-end)
-
--- Abrir Hub após introdução
+-- Mostrar ícone depois da intro
 delay(7,function()
     introFrame:Destroy()
-    frame.Visible = true
+    hubIcon.Visible = true
 end)
