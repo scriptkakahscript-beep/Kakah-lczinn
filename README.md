@@ -1,9 +1,8 @@
--- LocalScript - Kakah Hub Completo com FunPage e AvatarPage
+-- LocalScript - Kakah Hub Completo com Créditos, FunPage e AvatarPage
 
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
-local RunService = game:GetService("RunService")
 
 -- ScreenGui
 local screenGui = Instance.new("ScreenGui")
@@ -78,10 +77,32 @@ closeButton.MouseButton1Click:Connect(function()
     frame.Visible = false
 end)
 
--- Lista de criadores
+-- ===========================
+-- Aba Créditos
+-- ===========================
+local creditsButton = Instance.new("TextButton")
+creditsButton.Size = UDim2.new(0,120,0,40)
+creditsButton.Position = UDim2.new(0,10,0,130)
+creditsButton.BackgroundColor3 = Color3.fromRGB(0,0,0)
+creditsButton.TextColor3 = Color3.fromRGB(255,255,255)
+creditsButton.Text = "Créditos"
+creditsButton.Font = Enum.Font.SourceSansBold
+creditsButton.TextScaled = true
+creditsButton.Parent = frame
+
+-- Página Créditos
+local creditsPage = Instance.new("Frame")
+creditsPage.Size = UDim2.new(1,-20,1,-50)
+creditsPage.Position = UDim2.new(0,10,0,50)
+creditsPage.BackgroundColor3 = Color3.fromRGB(255,0,0)
+creditsPage.Visible = false
+creditsPage.Parent = frame
+Instance.new("UICorner", creditsPage).CornerRadius = UDim.new(0,10)
+
+-- Nomes dos criadores na CreditsPage
 local creators = {"Kakah","ajuntantes lczin","Ninja","Lolyta"}
 local creatorsLabel = Instance.new("TextLabel")
-creatorsLabel.Size = UDim2.new(1,-20,0,120)
+creatorsLabel.Size = UDim2.new(1,-20,1,-50)
 creatorsLabel.Position = UDim2.new(0,10,0,50)
 creatorsLabel.BackgroundTransparency = 1
 creatorsLabel.TextColor3 = Color3.fromRGB(255,255,255)
@@ -89,7 +110,7 @@ creatorsLabel.TextScaled = true
 creatorsLabel.TextWrapped = true
 creatorsLabel.Font = Enum.Font.SourceSans
 creatorsLabel.TextYAlignment = Enum.TextYAlignment.Top
-creatorsLabel.Parent = frame
+creatorsLabel.Parent = creditsPage
 
 local text = "👑 Criadores:\n"
 for _,name in ipairs(creators) do
@@ -97,7 +118,29 @@ for _,name in ipairs(creators) do
 end
 creatorsLabel.Text = text
 
+-- Botão Voltar CreditsPage
+local creditsBackButton = Instance.new("TextButton")
+creditsBackButton.Size = UDim2.new(0,100,0,40)
+creditsBackButton.Position = UDim2.new(1,-120,0,10)
+creditsBackButton.BackgroundColor3 = Color3.fromRGB(0,0,0)
+creditsBackButton.TextColor3 = Color3.fromRGB(255,255,255)
+creditsBackButton.Text = "Voltar"
+creditsBackButton.Font = Enum.Font.SourceSansBold
+creditsBackButton.TextScaled = true
+creditsBackButton.Parent = creditsPage
+
+creditsBackButton.MouseButton1Click:Connect(function()
+    creditsPage.Visible = false
+end)
+
+-- Toggle CreditsPage
+creditsButton.MouseButton1Click:Connect(function()
+    creditsPage.Visible = not creditsPage.Visible
+end)
+
+-- ===========================
 -- Aba Fun
+-- ===========================
 local funButton = Instance.new("TextButton")
 funButton.Size = UDim2.new(0,100,0,40)
 funButton.Position = UDim2.new(0,10,0,180)
@@ -108,7 +151,6 @@ funButton.Font = Enum.Font.SourceSansBold
 funButton.TextScaled = true
 funButton.Parent = frame
 
--- FunPage (vermelha, tamanho quase todo o Hub)
 local funPage = Instance.new("Frame")
 funPage.Size = UDim2.new(1,-20,1,-50)
 funPage.Position = UDim2.new(0,10,0,50)
@@ -117,7 +159,6 @@ funPage.Visible = false
 funPage.Parent = frame
 Instance.new("UICorner", funPage).CornerRadius = UDim.new(0,10)
 
--- Botão Voltar FunPage
 local backButton = Instance.new("TextButton")
 backButton.Size = UDim2.new(0,100,0,40)
 backButton.Position = UDim2.new(1,-120,0,10)
@@ -132,63 +173,13 @@ backButton.MouseButton1Click:Connect(function()
     funPage.Visible = false
 end)
 
--- Botões Noclip e Speed na FunPage
-local noclipButton = Instance.new("TextButton")
-noclipButton.Size = UDim2.new(0,150,0,50)
-noclipButton.Position = UDim2.new(0,20,0,70)
-noclipButton.BackgroundColor3 = Color3.fromRGB(0,0,0)
-noclipButton.TextColor3 = Color3.fromRGB(255,255,255)
-noclipButton.Text = "Noclip"
-noclipButton.Font = Enum.Font.SourceSansBold
-noclipButton.TextScaled = true
-noclipButton.Parent = funPage
-
-local speedButton = Instance.new("TextButton")
-speedButton.Size = UDim2.new(0,150,0,50)
-speedButton.Position = UDim2.new(0,200,0,70)
-speedButton.BackgroundColor3 = Color3.fromRGB(0,0,0)
-speedButton.TextColor3 = Color3.fromRGB(255,255,255)
-speedButton.Text = "Speed"
-speedButton.Font = Enum.Font.SourceSansBold
-speedButton.TextScaled = true
-speedButton.Parent = funPage
-
--- Noclip toggle
-local noclipEnabled = false
-noclipButton.MouseButton1Click:Connect(function()
-    noclipEnabled = not noclipEnabled
-    noclipButton.Text = noclipEnabled and "Noclip ON" or "Noclip OFF"
-end)
-
-RunService.Stepped:Connect(function()
-    if noclipEnabled and player.Character then
-        for _,part in ipairs(player.Character:GetDescendants()) do
-            if part:IsA("BasePart") then
-                part.CanCollide = false
-            end
-        end
-    end
-end)
-
--- Speed toggle até 100
-local speedValue = 50
-speedButton.MouseButton1Click:Connect(function()
-    speedValue = speedValue + 10
-    if speedValue > 100 then speedValue = 16 end
-    if player.Character and player.Character:FindFirstChild("Humanoid") then
-        player.Character.Humanoid.WalkSpeed = speedValue
-    end
-    speedButton.Text = "Speed: "..speedValue
-end)
-
--- Toggle FunPage
 funButton.MouseButton1Click:Connect(function()
     funPage.Visible = not funPage.Visible
 end)
 
--- ---------------------
+-- ===========================
 -- Aba Avatar
--- ---------------------
+-- ===========================
 local avatarButton = Instance.new("TextButton")
 avatarButton.Size = UDim2.new(0,100,0,40)
 avatarButton.Position = UDim2.new(0,10,0,230)
@@ -199,7 +190,6 @@ avatarButton.Font = Enum.Font.SourceSansBold
 avatarButton.TextScaled = true
 avatarButton.Parent = frame
 
--- AvatarPage
 local avatarPage = Instance.new("Frame")
 avatarPage.Size = UDim2.new(1,-20,1,-50)
 avatarPage.Position = UDim2.new(0,10,0,50)
@@ -208,7 +198,6 @@ avatarPage.Visible = false
 avatarPage.Parent = frame
 Instance.new("UICorner", avatarPage).CornerRadius = UDim.new(0,10)
 
--- Botão Voltar AvatarPage
 local avatarBackButton = Instance.new("TextButton")
 avatarBackButton.Size = UDim2.new(0,100,0,40)
 avatarBackButton.Position = UDim2.new(1,-120,0,10)
@@ -223,7 +212,6 @@ avatarBackButton.MouseButton1Click:Connect(function()
     avatarPage.Visible = false
 end)
 
--- Toggle AvatarPage
 avatarButton.MouseButton1Click:Connect(function()
     avatarPage.Visible = not avatarPage.Visible
 end)
@@ -235,6 +223,3 @@ delay(7,function()
 end)
 
 -- Abrir/fechar Hub pelo ícone
-hubIcon.MouseButton1Click:Connect(function()
-    frame.Visible = not frame.Visible
-end)
