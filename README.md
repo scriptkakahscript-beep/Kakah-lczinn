@@ -1,9 +1,11 @@
--- LocalScript - Kakah Hub com abas internas e FunPage grande
+-- LocalScript - Kakah Hub Completo
 
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
+local RunService = game:GetService("RunService")
 
+-- ScreenGui
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "KakahHubGUI"
 screenGui.ResetOnSpawn = false
@@ -12,7 +14,6 @@ screenGui.Parent = playerGui
 -- Tela de introdução
 local introFrame = Instance.new("Frame")
 introFrame.Size = UDim2.new(1,0,1,0)
-introFrame.Position = UDim2.new(0,0,0,0)
 introFrame.BackgroundColor3 = Color3.fromRGB(255,0,0)
 introFrame.Parent = screenGui
 
@@ -36,7 +37,7 @@ hubIcon.Font = Enum.Font.SourceSansBold
 hubIcon.TextScaled = true
 hubIcon.Parent = screenGui
 
--- Painel principal do Hub
+-- Hub principal
 local frame = Instance.new("Frame")
 frame.Size = UDim2.new(0,900,0,500)
 frame.Position = UDim2.new(0.5,-450,0.25,0)
@@ -75,4 +76,108 @@ closeButton.Parent = frame
 
 closeButton.MouseButton1Click:Connect(function()
     frame.Visible = false
+end)
+
+-- Lista de criadores
+local creators = {"Kakah","ajuntantes lczin","Ninja","Lolyta"}
+local creatorsLabel = Instance.new("TextLabel")
+creatorsLabel.Size = UDim2.new(1,-20,0,120)
+creatorsLabel.Position = UDim2.new(0,10,0,50)
+creatorsLabel.BackgroundTransparency = 1
+creatorsLabel.TextColor3 = Color3.fromRGB(255,255,255)
+creatorsLabel.TextScaled = true
+creatorsLabel.TextWrapped = true
+creatorsLabel.Font = Enum.Font.SourceSans
+creatorsLabel.TextYAlignment = Enum.TextYAlignment.Top
+creatorsLabel.Parent = frame
+
+local text = "👑 Criadores:\n"
+for _,name in ipairs(creators) do
+    text = text..name.."\n"
+end
+creatorsLabel.Text = text
+
+-- Aba Fun
+local funButton = Instance.new("TextButton")
+funButton.Size = UDim2.new(0,100,0,40)
+funButton.Position = UDim2.new(0,10,0,180)
+funButton.BackgroundColor3 = Color3.fromRGB(0,0,0)
+funButton.TextColor3 = Color3.fromRGB(255,255,255)
+funButton.Text = "Fun"
+funButton.Font = Enum.Font.SourceSansBold
+funButton.TextScaled = true
+funButton.Parent = frame
+
+-- FunPage (vermelha, tamanho quase todo o Hub)
+local funPage = Instance.new("Frame")
+funPage.Size = UDim2.new(1,-20,1,-50)
+funPage.Position = UDim2.new(0,10,0,50)
+funPage.BackgroundColor3 = Color3.fromRGB(255,0,0)
+funPage.Visible = false
+funPage.Parent = frame
+Instance.new("UICorner", funPage).CornerRadius = UDim.new(0,10)
+
+-- Botões Noclip e Speed dentro da FunPage
+local noclipButton = Instance.new("TextButton")
+noclipButton.Size = UDim2.new(0,150,0,50)
+noclipButton.Position = UDim2.new(0,20,0,20)
+noclipButton.BackgroundColor3 = Color3.fromRGB(0,0,0)
+noclipButton.TextColor3 = Color3.fromRGB(255,255,255)
+noclipButton.Text = "Noclip"
+noclipButton.Font = Enum.Font.SourceSansBold
+noclipButton.TextScaled = true
+noclipButton.Parent = funPage
+
+local speedButton = Instance.new("TextButton")
+speedButton.Size = UDim2.new(0,150,0,50)
+speedButton.Position = UDim2.new(0,200,0,20)
+speedButton.BackgroundColor3 = Color3.fromRGB(0,0,0)
+speedButton.TextColor3 = Color3.fromRGB(255,255,255)
+speedButton.Text = "Speed"
+speedButton.Font = Enum.Font.SourceSansBold
+speedButton.TextScaled = true
+speedButton.Parent = funPage
+
+-- Noclip toggle
+local noclipEnabled = false
+noclipButton.MouseButton1Click:Connect(function()
+    noclipEnabled = not noclipEnabled
+    noclipButton.Text = noclipEnabled and "Noclip ON" or "Noclip OFF"
+end)
+
+RunService.Stepped:Connect(function()
+    if noclipEnabled and player.Character then
+        for _,part in ipairs(player.Character:GetDescendants()) do
+            if part:IsA("BasePart") then
+                part.CanCollide = false
+            end
+        end
+    end
+end)
+
+-- Speed toggle até 100
+local speedValue = 50
+speedButton.MouseButton1Click:Connect(function()
+    speedValue = speedValue + 10
+    if speedValue > 100 then speedValue = 16 end
+    if player.Character and player.Character:FindFirstChild("Humanoid") then
+        player.Character.Humanoid.WalkSpeed = speedValue
+    end
+    speedButton.Text = "Speed: "..speedValue
+end)
+
+-- Toggle da aba Fun
+funButton.MouseButton1Click:Connect(function()
+    funPage.Visible = not funPage.Visible
+end)
+
+-- Abrir Hub automaticamente após introdução
+delay(7,function()
+    introFrame:Destroy()
+    frame.Visible = true
+end)
+
+-- Abrir/fechar Hub pelo ícone
+hubIcon.MouseButton1Click:Connect(function()
+    frame.Visible = not frame.Visible
 end)
