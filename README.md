@@ -1,4 +1,4 @@
---// LocalScript - Kakah Hub com tela de introdução em imagem e ícone de abrir/fechar
+--// LocalScript - Kakah Hub com tela de introdução e ícone de abrir/fechar
 
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
@@ -8,19 +8,16 @@ local playerGui = player:WaitForChild("PlayerGui")
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "KakahHubGUI"
 screenGui.ResetOnSpawn = false
-screenGui.IgnoreGuiInset = true
 screenGui.Parent = playerGui
 
 -- ======================
--- Tela de introdução com imagem
+-- Tela de introdução
 -- ======================
-local introImage = Instance.new("ImageLabel")
-introImage.Size = UDim2.new(1, 0, 1, 0) -- cobre toda a tela
-introImage.Position = UDim2.new(0, 0, 0, 0)
-introImage.BackgroundTransparency = 1
-introImage.Image = "126845736505633" -- coloque o Asset ID da imagem
-introImage.ZIndex = 10
-introImage.Parent = screenGui
+local introFrame = Instance.new("Frame")
+introFrame.Size = UDim2.new(1, 0, 1, 0) -- cobre toda a tela
+introFrame.Position = UDim2.new(0, 0, 0, 0)
+introFrame.BackgroundColor3 = Color3.fromRGB(255, 0, 0) -- vermelho
+introFrame.Parent = screenGui
 
 local introText = Instance.new("TextLabel")
 introText.Size = UDim2.new(1, 0, 1, 0)
@@ -30,8 +27,25 @@ introText.Text = "Seja bem-vindo ao Kakah Hub"
 introText.TextColor3 = Color3.fromRGB(255, 255, 255)
 introText.TextScaled = true
 introText.Font = Enum.Font.SourceSansBold
-introText.ZIndex = 11
-introText.Parent = introImage
+introText.Parent = introFrame
+
+-- Remove a tela após 7 segundos
+delay(7, function()
+    introFrame:Destroy()
+end)
+
+-- ======================
+-- Ícone para abrir/fechar hub
+-- ======================
+local hubIcon = Instance.new("TextButton")
+hubIcon.Size = UDim2.new(0, 50, 0, 50)
+hubIcon.Position = UDim2.new(0, 20, 0, 20)
+hubIcon.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+hubIcon.Text = "☰"
+hubIcon.TextColor3 = Color3.fromRGB(255, 255, 255)
+hubIcon.Font = Enum.Font.SourceSansBold
+hubIcon.TextScaled = true
+hubIcon.Parent = screenGui
 
 -- ======================
 -- Painel principal do Hub
@@ -42,8 +56,7 @@ frame.Position = UDim2.new(0.5, -450, 0.25, 0)
 frame.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
 frame.Active = true
 frame.Draggable = true
-frame.Visible = false -- começa invisível, será mostrado após introdução
-frame.ZIndex = 5
+frame.Visible = false -- começa fechado
 frame.Parent = screenGui
 
 -- Estilo do Hub
@@ -63,7 +76,6 @@ title.Text = "🔥 Kakah Hub"
 title.TextColor3 = Color3.fromRGB(255, 255, 255)
 title.TextScaled = true
 title.Font = Enum.Font.SourceSansBold
-title.ZIndex = 12
 title.Parent = frame
 
 -- Botão interno de fechar
@@ -75,7 +87,6 @@ closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 closeButton.Text = "X"
 closeButton.Font = Enum.Font.SourceSansBold
 closeButton.TextScaled = true
-closeButton.ZIndex = 13
 closeButton.Parent = frame
 
 closeButton.MouseButton1Click:Connect(function()
@@ -91,33 +102,9 @@ contentLabel.Text = "Bem-vindo ao Kakah Hub!"
 contentLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 contentLabel.TextScaled = true
 contentLabel.TextWrapped = true
-contentLabel.ZIndex = 12
 contentLabel.Parent = frame
 
--- ======================
--- Ícone para abrir/fechar hub
--- ======================
-local hubIcon = Instance.new("TextButton")
-hubIcon.Size = UDim2.new(0, 50, 0, 50)
-hubIcon.Position = UDim2.new(0, 20, 0, 20)
-hubIcon.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-hubIcon.Text = "☰"
-hubIcon.TextColor3 = Color3.fromRGB(255, 255, 255)
-hubIcon.Font = Enum.Font.SourceSansBold
-hubIcon.TextScaled = true
-hubIcon.ZIndex = 14
-hubIcon.Parent = screenGui
-
+-- Função para abrir/fechar pelo ícone
 hubIcon.MouseButton1Click:Connect(function()
     frame.Visible = not frame.Visible
-end)
-
--- ======================
--- Remove a tela de introdução após 7 segundos e mostra o hub
--- ======================
-task.delay(7, function()
-    if introImage then
-        introImage:Destroy()
-    end
-    frame.Visible = true -- abre o hub automaticamente
 end)
