@@ -1,8 +1,9 @@
--- LocalScript - Kakah Hub Completo com Créditos, FunPage e AvatarPage
+-- LocalScript - Kakah Hub Completo Final com TikTok
 
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
+local GuiService = game:GetService("GuiService")
 
 -- ScreenGui
 local screenGui = Instance.new("ScreenGui")
@@ -25,17 +26,6 @@ introText.TextScaled = true
 introText.Font = Enum.Font.SourceSansBold
 introText.Parent = introFrame
 
--- Ícone do Hub
-local hubIcon = Instance.new("TextButton")
-hubIcon.Size = UDim2.new(0,50,0,50)
-hubIcon.Position = UDim2.new(0,20,0,20)
-hubIcon.BackgroundColor3 = Color3.fromRGB(0,0,0)
-hubIcon.Text = "☰"
-hubIcon.TextColor3 = Color3.fromRGB(255,255,255)
-hubIcon.Font = Enum.Font.SourceSansBold
-hubIcon.TextScaled = true
-hubIcon.Parent = screenGui
-
 -- Hub principal
 local frame = Instance.new("Frame")
 frame.Size = UDim2.new(0,900,0,500)
@@ -45,13 +35,12 @@ frame.Active = true
 frame.Draggable = true
 frame.Visible = false
 frame.Parent = screenGui
-
 Instance.new("UICorner", frame).CornerRadius = UDim.new(0,12)
 local UIStroke = Instance.new("UIStroke", frame)
 UIStroke.Thickness = 2
 UIStroke.Color = Color3.fromRGB(255,255,255)
 
--- Título
+-- Título Hub
 local title = Instance.new("TextLabel")
 title.Size = UDim2.new(1,-50,0,40)
 title.Position = UDim2.new(0,10,0,0)
@@ -72,9 +61,28 @@ closeButton.Text = "X"
 closeButton.Font = Enum.Font.SourceSansBold
 closeButton.TextScaled = true
 closeButton.Parent = frame
-
 closeButton.MouseButton1Click:Connect(function()
     frame.Visible = false
+end)
+
+-- Ícone funcional do Hub
+local hubIcon = Instance.new("TextButton")
+hubIcon.Size = UDim2.new(0,50,0,50)
+hubIcon.Position = UDim2.new(0,20,0,20)
+hubIcon.BackgroundColor3 = Color3.fromRGB(0,0,0)
+hubIcon.Text = "☰"
+hubIcon.TextColor3 = Color3.fromRGB(255,255,255)
+hubIcon.Font = Enum.Font.SourceSansBold
+hubIcon.TextScaled = true
+hubIcon.Parent = screenGui
+hubIcon.ZIndex = 10
+hubIcon.MouseButton1Click:Connect(function()
+    frame.Visible = not frame.Visible
+    if not frame.Visible then
+        funPage.Visible = false
+        avatarPage.Visible = false
+        creditsPage.Visible = false
+    end
 end)
 
 -- ===========================
@@ -90,7 +98,6 @@ creditsButton.Font = Enum.Font.SourceSansBold
 creditsButton.TextScaled = true
 creditsButton.Parent = frame
 
--- Página Créditos
 local creditsPage = Instance.new("Frame")
 creditsPage.Size = UDim2.new(1,-20,1,-50)
 creditsPage.Position = UDim2.new(0,10,0,50)
@@ -99,14 +106,15 @@ creditsPage.Visible = false
 creditsPage.Parent = frame
 Instance.new("UICorner", creditsPage).CornerRadius = UDim.new(0,10)
 
--- Nomes dos criadores na CreditsPage
+-- Nomes menores dos criadores
 local creators = {"Kakah","ajuntantes lczin","Ninja","Lolyta"}
 local creatorsLabel = Instance.new("TextLabel")
 creatorsLabel.Size = UDim2.new(1,-20,1,-50)
 creatorsLabel.Position = UDim2.new(0,10,0,50)
 creatorsLabel.BackgroundTransparency = 1
 creatorsLabel.TextColor3 = Color3.fromRGB(255,255,255)
-creatorsLabel.TextScaled = true
+creatorsLabel.TextScaled = false
+creatorsLabel.TextSize = 30
 creatorsLabel.TextWrapped = true
 creatorsLabel.Font = Enum.Font.SourceSans
 creatorsLabel.TextYAlignment = Enum.TextYAlignment.Top
@@ -128,12 +136,24 @@ creditsBackButton.Text = "Voltar"
 creditsBackButton.Font = Enum.Font.SourceSansBold
 creditsBackButton.TextScaled = true
 creditsBackButton.Parent = creditsPage
-
 creditsBackButton.MouseButton1Click:Connect(function()
     creditsPage.Visible = false
 end)
 
--- Toggle CreditsPage
+-- Botão TikTok
+local tiktokButton = Instance.new("TextButton")
+tiktokButton.Size = UDim2.new(0,200,0,40)
+tiktokButton.Position = UDim2.new(1,-220,0,50)
+tiktokButton.BackgroundColor3 = Color3.fromRGB(0,0,0)
+tiktokButton.TextColor3 = Color3.fromRGB(255,255,255)
+tiktokButton.Text = "TikTok do Kakah"
+tiktokButton.Font = Enum.Font.SourceSansBold
+tiktokButton.TextScaled = true
+tiktokButton.Parent = creditsPage
+tiktokButton.MouseButton1Click:Connect(function()
+    GuiService:OpenBrowserWindow("https://www.tiktok.com/@kaykaka2?_t=ZM-8zA4oJ0BjV8&_r=1")
+end)
+
 creditsButton.MouseButton1Click:Connect(function()
     creditsPage.Visible = not creditsPage.Visible
 end)
@@ -168,7 +188,6 @@ backButton.Text = "Voltar"
 backButton.Font = Enum.Font.SourceSansBold
 backButton.TextScaled = true
 backButton.Parent = funPage
-
 backButton.MouseButton1Click:Connect(function()
     funPage.Visible = false
 end)
@@ -207,7 +226,6 @@ avatarBackButton.Text = "Voltar"
 avatarBackButton.Font = Enum.Font.SourceSansBold
 avatarBackButton.TextScaled = true
 avatarBackButton.Parent = avatarPage
-
 avatarBackButton.MouseButton1Click:Connect(function()
     avatarPage.Visible = false
 end)
@@ -221,5 +239,3 @@ delay(7,function()
     introFrame:Destroy()
     frame.Visible = true
 end)
-
--- Abrir/fechar Hub pelo ícone
