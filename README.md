@@ -1,4 +1,4 @@
--- LocalScript - Kakah Hub Completo
+-- LocalScript - Kakah Hub Completo com Voltar na FunPage
 
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
@@ -117,10 +117,25 @@ funPage.Visible = false
 funPage.Parent = frame
 Instance.new("UICorner", funPage).CornerRadius = UDim.new(0,10)
 
+-- Botão Voltar dentro da FunPage
+local backButton = Instance.new("TextButton")
+backButton.Size = UDim2.new(0,100,0,40)
+backButton.Position = UDim2.new(1,-120,0,10) -- canto superior direito
+backButton.BackgroundColor3 = Color3.fromRGB(0,0,0)
+backButton.TextColor3 = Color3.fromRGB(255,255,255)
+backButton.Text = "Voltar"
+backButton.Font = Enum.Font.SourceSansBold
+backButton.TextScaled = true
+backButton.Parent = funPage
+
+backButton.MouseButton1Click:Connect(function()
+    funPage.Visible = false
+end)
+
 -- Botões Noclip e Speed dentro da FunPage
 local noclipButton = Instance.new("TextButton")
 noclipButton.Size = UDim2.new(0,150,0,50)
-noclipButton.Position = UDim2.new(0,20,0,20)
+noclipButton.Position = UDim2.new(0,20,0,70)
 noclipButton.BackgroundColor3 = Color3.fromRGB(0,0,0)
 noclipButton.TextColor3 = Color3.fromRGB(255,255,255)
 noclipButton.Text = "Noclip"
@@ -130,7 +145,7 @@ noclipButton.Parent = funPage
 
 local speedButton = Instance.new("TextButton")
 speedButton.Size = UDim2.new(0,150,0,50)
-speedButton.Position = UDim2.new(0,200,0,20)
+speedButton.Position = UDim2.new(0,200,0,70)
 speedButton.BackgroundColor3 = Color3.fromRGB(0,0,0)
 speedButton.TextColor3 = Color3.fromRGB(255,255,255)
 speedButton.Text = "Speed"
