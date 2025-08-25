@@ -1,5 +1,3 @@
---// LocalScript - Kakah Hub com tela de introdução e ícone de abrir/fechar
-
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
@@ -9,14 +7,16 @@ local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "KakahHubGUI"
 screenGui.ResetOnSpawn = false
 screenGui.Parent = playerGui
+screenGui.IgnoreGuiInset = true -- garante que fique no topo
 
 -- ======================
 -- Tela de introdução
 -- ======================
 local introFrame = Instance.new("Frame")
-introFrame.Size = UDim2.new(1, 0, 1, 0) -- cobre toda a tela
+introFrame.Size = UDim2.new(1, 0, 1, 0)
 introFrame.Position = UDim2.new(0, 0, 0, 0)
-introFrame.BackgroundColor3 = Color3.fromRGB(255, 0, 0) -- vermelho
+introFrame.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+introFrame.ZIndex = 10 -- fica acima de tudo
 introFrame.Parent = screenGui
 
 local introText = Instance.new("TextLabel")
@@ -27,11 +27,14 @@ introText.Text = "Seja bem-vindo ao Kakah Hub"
 introText.TextColor3 = Color3.fromRGB(255, 255, 255)
 introText.TextScaled = true
 introText.Font = Enum.Font.SourceSansBold
+introText.ZIndex = 11 -- acima do Frame
 introText.Parent = introFrame
 
 -- Remove a tela após 7 segundos
-delay(7, function()
-    introFrame:Destroy()
+task.delay(7, function()
+    if introFrame then
+        introFrame:Destroy()
+    end
 end)
 
 -- ======================
@@ -46,6 +49,7 @@ hubIcon.TextColor3 = Color3.fromRGB(255, 255, 255)
 hubIcon.Font = Enum.Font.SourceSansBold
 hubIcon.TextScaled = true
 hubIcon.Parent = screenGui
+hubIcon.ZIndex = 12 -- acima da tela de introdução
 
 -- ======================
 -- Painel principal do Hub
@@ -56,8 +60,9 @@ frame.Position = UDim2.new(0.5, -450, 0.25, 0)
 frame.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
 frame.Active = true
 frame.Draggable = true
-frame.Visible = false -- começa fechado
+frame.Visible = false
 frame.Parent = screenGui
+frame.ZIndex = 5
 
 -- Estilo do Hub
 local UICorner = Instance.new("UICorner", frame)
