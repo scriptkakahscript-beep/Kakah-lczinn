@@ -1,4 +1,4 @@
---// LocalScript - Kakah Hub com tela de introdução e ícone de abrir/fechar
+--// LocalScript - Kakah Hub com tela de introdução em imagem e ícone de abrir/fechar
 
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
@@ -12,14 +12,15 @@ screenGui.IgnoreGuiInset = true
 screenGui.Parent = playerGui
 
 -- ======================
--- Tela de introdução
+-- Tela de introdução com imagem
 -- ======================
-local introFrame = Instance.new("Frame")
-introFrame.Size = UDim2.new(1, 0, 1, 0)
-introFrame.Position = UDim2.new(0, 0, 0, 0)
-introFrame.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-introFrame.ZIndex = 10
-introFrame.Parent = screenGui
+local introImage = Instance.new("ImageLabel")
+introImage.Size = UDim2.new(1, 0, 1, 0) -- cobre toda a tela
+introImage.Position = UDim2.new(0, 0, 0, 0)
+introImage.BackgroundTransparency = 1
+introImage.Image = "https://share.google/images/6fee8bpDlJtevNDGS" -- coloque o Asset ID da imagem
+introImage.ZIndex = 10
+introImage.Parent = screenGui
 
 local introText = Instance.new("TextLabel")
 introText.Size = UDim2.new(1, 0, 1, 0)
@@ -30,7 +31,7 @@ introText.TextColor3 = Color3.fromRGB(255, 255, 255)
 introText.TextScaled = true
 introText.Font = Enum.Font.SourceSansBold
 introText.ZIndex = 11
-introText.Parent = introFrame
+introText.Parent = introImage
 
 -- ======================
 -- Painel principal do Hub
@@ -62,7 +63,7 @@ title.Text = "🔥 Kakah Hub"
 title.TextColor3 = Color3.fromRGB(255, 255, 255)
 title.TextScaled = true
 title.Font = Enum.Font.SourceSansBold
-title.ZIndex = 12 -- garante que fique acima do fundo
+title.ZIndex = 12
 title.Parent = frame
 
 -- Botão interno de fechar
@@ -115,8 +116,8 @@ end)
 -- Remove a tela de introdução após 7 segundos e mostra o hub
 -- ======================
 task.delay(7, function()
-    if introFrame then
-        introFrame:Destroy()
+    if introImage then
+        introImage:Destroy()
     end
     frame.Visible = true -- abre o hub automaticamente
 end)
