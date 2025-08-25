@@ -18,7 +18,7 @@ local introImage = Instance.new("ImageLabel")
 introImage.Size = UDim2.new(1, 0, 1, 0) -- cobre toda a tela
 introImage.Position = UDim2.new(0, 0, 0, 0)
 introImage.BackgroundTransparency = 1
-introImage.Image = "https://share.google/images/6fee8bpDlJtevNDGS" -- coloque o Asset ID da imagem
+introImage.Image = "126845736505633" -- coloque o Asset ID da imagem
 introImage.ZIndex = 10
 introImage.Parent = screenGui
 
