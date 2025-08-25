@@ -1,22 +1,34 @@
---// LocalScript - Kakah Hub Simples
+--// LocalScript - Kakah Hub com Ícone de Abrir/Fechar
 
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
--- Criação do GUI principal
+-- Criação do ScreenGui
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "KakahHubGUI"
 screenGui.ResetOnSpawn = false
 screenGui.Parent = playerGui
 
+-- Ícone para abrir/fechar hub
+local hubIcon = Instance.new("TextButton")
+hubIcon.Size = UDim2.new(0, 50, 0, 50)
+hubIcon.Position = UDim2.new(0, 20, 0, 20)
+hubIcon.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- cor preta
+hubIcon.Text = "☰"
+hubIcon.TextColor3 = Color3.fromRGB(255, 255, 255)
+hubIcon.Font = Enum.Font.SourceSansBold
+hubIcon.TextScaled = true
+hubIcon.Parent = screenGui
+
 -- Painel principal
 local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 900, 0, 500) -- altura 500
+frame.Size = UDim2.new(0, 900, 0, 500)
 frame.Position = UDim2.new(0.5, -450, 0.25, 0)
 frame.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
 frame.Active = true
 frame.Draggable = true
+frame.Visible = false -- começa fechado
 frame.Parent = screenGui
 
 -- Estilo
@@ -38,22 +50,22 @@ title.TextScaled = true
 title.Font = Enum.Font.SourceSansBold
 title.Parent = frame
 
--- Botão Minimizar
-local toggleButton = Instance.new("TextButton")
-toggleButton.Size = UDim2.new(0, 40, 0, 40)
-toggleButton.Position = UDim2.new(1, -45, 0, 5)
-toggleButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-toggleButton.Text = "-"
-toggleButton.Font = Enum.Font.SourceSansBold
-toggleButton.TextScaled = true
-toggleButton.Parent = frame
+-- Botão interno de fechar
+local closeButton = Instance.new("TextButton")
+closeButton.Size = UDim2.new(0, 40, 0, 40)
+closeButton.Position = UDim2.new(1, -45, 0, 5)
+closeButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeButton.Text = "X"
+closeButton.Font = Enum.Font.SourceSansBold
+closeButton.TextScaled = true
+closeButton.Parent = frame
 
-toggleButton.MouseButton1Click:Connect(function()
-    frame.Visible = not frame.Visible
+closeButton.MouseButton1Click:Connect(function()
+    frame.Visible = false
 end)
 
--- Texto inicial
+-- Texto de boas-vindas
 local contentLabel = Instance.new("TextLabel")
 contentLabel.Size = UDim2.new(1, -20, 0, 40)
 contentLabel.Position = UDim2.new(0, 10, 0, 50)
@@ -63,3 +75,8 @@ contentLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 contentLabel.TextScaled = true
 contentLabel.TextWrapped = true
 contentLabel.Parent = frame
+
+-- Função para abrir/fechar pelo ícone
+hubIcon.MouseButton1Click:Connect(function()
+    frame.Visible = not frame.Visible
+end)
