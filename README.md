@@ -1,4 +1,4 @@
--- LocalScript - Kakah Hub Completo Final com TikTok funcional no Brookhaven
+-- LocalScript - Kakah Hub Completo com Fun, Avatar, Troll e Créditos
 
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
@@ -77,11 +77,6 @@ hubIcon.Parent = screenGui
 hubIcon.ZIndex = 10
 hubIcon.MouseButton1Click:Connect(function()
     frame.Visible = not frame.Visible
-    if not frame.Visible then
-        funPage.Visible = false
-        avatarPage.Visible = false
-        creditsPage.Visible = false
-    end
 end)
 
 -- ===========================
@@ -182,16 +177,16 @@ funPage.Visible = false
 funPage.Parent = frame
 Instance.new("UICorner", funPage).CornerRadius = UDim.new(0,10)
 
-local backButton = Instance.new("TextButton")
-backButton.Size = UDim2.new(0,100,0,40)
-backButton.Position = UDim2.new(1,-120,0,10)
-backButton.BackgroundColor3 = Color3.fromRGB(0,0,0)
-backButton.TextColor3 = Color3.fromRGB(255,255,255)
-backButton.Text = "Voltar"
-backButton.Font = Enum.Font.SourceSansBold
-backButton.TextScaled = true
-backButton.Parent = funPage
-backButton.MouseButton1Click:Connect(function()
+local funBackButton = Instance.new("TextButton")
+funBackButton.Size = UDim2.new(0,100,0,40)
+funBackButton.Position = UDim2.new(1,-120,0,10)
+funBackButton.BackgroundColor3 = Color3.fromRGB(0,0,0)
+funBackButton.TextColor3 = Color3.fromRGB(255,255,255)
+funBackButton.Text = "Voltar"
+funBackButton.Font = Enum.Font.SourceSansBold
+funBackButton.TextScaled = true
+funBackButton.Parent = funPage
+funBackButton.MouseButton1Click:Connect(function()
     funPage.Visible = false
 end)
 
@@ -227,18 +222,4 @@ avatarBackButton.BackgroundColor3 = Color3.fromRGB(0,0,0)
 avatarBackButton.TextColor3 = Color3.fromRGB(255,255,255)
 avatarBackButton.Text = "Voltar"
 avatarBackButton.Font = Enum.Font.SourceSansBold
-avatarBackButton.TextScaled = true
-avatarBackButton.Parent = avatarPage
-avatarBackButton.MouseButton1Click:Connect(function()
-    avatarPage.Visible = false
-end)
-
-avatarButton.MouseButton1Click:Connect(function()
-    avatarPage.Visible = not avatarPage.Visible
-end)
-
--- Abrir Hub após introdução
-delay(7,function()
-    introFrame:Destroy()
-    frame.Visible = true
-end)
+avatarBackButton.Text
