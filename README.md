@@ -1,9 +1,6 @@
---// LocalScript - Kakah Hub Unificado com Fly (Altura 500)
+--// LocalScript - Kakah Hub Simples
 
 local Players = game:GetService("Players")
-local UIS = game:GetService("UserInputService")
-local RunService = game:GetService("RunService")
-
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
@@ -15,7 +12,7 @@ screenGui.Parent = playerGui
 
 -- Painel principal
 local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 900, 0, 500) -- altura aumentada para 500
+frame.Size = UDim2.new(0, 900, 0, 500) -- altura 500
 frame.Position = UDim2.new(0.5, -450, 0.25, 0)
 frame.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
 frame.Active = true
@@ -66,123 +63,3 @@ contentLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 contentLabel.TextScaled = true
 contentLabel.TextWrapped = true
 contentLabel.Parent = frame
-
--- // ABA DO FLY (já dentro do hub)
-local flyFrame = Instance.new("Frame")
-flyFrame.Size = UDim2.new(0, 400, 0, 200)
-flyFrame.Position = UDim2.new(0, 20, 0, 120)
-flyFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-flyFrame.Parent = frame
-
-Instance.new("UICorner", flyFrame).CornerRadius = UDim.new(0, 8)
-
-local flyTitle = Instance.new("TextLabel")
-flyTitle.Size = UDim2.new(1, 0, 0, 30)
-flyTitle.BackgroundTransparency = 1
-flyTitle.Text = "✈️ Fly "
-flyTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
-flyTitle.TextScaled = true
-flyTitle.Font = Enum.Font.SourceSansBold
-flyTitle.Parent = flyFrame
-
--- Botão ligar/desligar fly
-local flyButton = Instance.new("TextButton")
-flyButton.Size = UDim2.new(0, 360, 0, 40)
-flyButton.Position = UDim2.new(0, 20, 0, 50)
-flyButton.Text = "Ativar Fly"
-flyButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-flyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-flyButton.Font = Enum.Font.SourceSansBold
-flyButton.TextScaled = true
-flyButton.Parent = flyFrame
-Instance.new("UICorner", flyButton).CornerRadius = UDim.new(0, 6)
-
--- Caixa para velocidade
-local speedBox = Instance.new("TextBox")
-speedBox.Size = UDim2.new(0, 360, 0, 40)
-speedBox.Position = UDim2.new(0, 20, 0, 110)
-speedBox.PlaceholderText = "Velocidade (padrão 50)"
-speedBox.Text = ""
-speedBox.TextColor3 = Color3.fromRGB(255, 255, 255)
-speedBox.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-speedBox.Font = Enum.Font.SourceSans
-speedBox.TextScaled = true
-speedBox.Parent = flyFrame
-Instance.new("UICorner", speedBox).CornerRadius = UDim.new(0, 6)
-
--- Variáveis Fly
-local flying = false
-local speed = 50
-local hrp
-
-local function getHRP()
-    local char = player.Character or player.CharacterAdded:Wait()
-    return char:WaitForChild("HumanoidRootPart")
-end
-
-local function fly()
-    hrp = getHRP()
-    local bv = Instance.new("BodyVelocity")
-    bv.MaxForce = Vector3.new(4000, 4000, 4000)
-    bv.Parent = hrp
-
-    while flying and bv.Parent do
-        RunService.Heartbeat:Wait()
-        local move = Vector3.zero
-
-        if UIS:IsKeyDown(Enum.KeyCode.W) then
-            move += workspace.CurrentCamera.CFrame.LookVector * speed
-        end
-        if UIS:IsKeyDown(Enum.KeyCode.S) then
-            move -= workspace.CurrentCamera.CFrame.LookVector * speed
-        end
-        if UIS:IsKeyDown(Enum.KeyCode.A) then
-            move -= workspace.CurrentCamera.CFrame.RightVector * speed
-        end
-        if UIS:IsKeyDown(Enum.KeyCode.D) then
-            move += workspace.CurrentCamera.CFrame.RightVector * speed
-        end
-        if UIS:IsKeyDown(Enum.KeyCode.Space) then
-            move += Vector3.new(0, speed, 0)
-        end
-        if UIS:IsKeyDown(Enum.KeyCode.LeftControl) then
-            move -= Vector3.new(0, speed, 0)
-        end
-
-        bv.Velocity = move
-    end
-
-    bv:Destroy()
-end
-
-local function toggleFly()
-    flying = not flying
-    if flying then
-        flyButton.Text = "Desativar Fly"
-        fly()
-    else
-        flyButton.Text = "Ativar Fly"
-    end
-end
-
--- Conectar botões
-flyButton.MouseButton1Click:Connect(toggleFly)
-
-speedBox.FocusLost:Connect(function(enterPressed)
-    if enterPressed then
-        local val = tonumber(speedBox.Text)
-        if val and val > 0 and val <= 200 then
-            speed = val
-        else
-            speedBox.Text = ""
-            speed = 50
-        end
-    end
-end)
-
--- Hotkey Fly (F)
-UIS.InputBegan:Connect(function(input, processed)
-    if not processed and input.KeyCode == Enum.KeyCode.F then
-        toggleFly()
-    end
-end)
