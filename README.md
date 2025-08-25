@@ -1,4 +1,4 @@
---// LocalScript - Kakah Hub com Ícone de Abrir/Fechar
+--// LocalScript - Kakah Hub com tela de introdução e ícone de abrir/fechar
 
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
@@ -10,18 +10,46 @@ screenGui.Name = "KakahHubGUI"
 screenGui.ResetOnSpawn = false
 screenGui.Parent = playerGui
 
+-- ======================
+-- Tela de introdução
+-- ======================
+local introFrame = Instance.new("Frame")
+introFrame.Size = UDim2.new(1, 0, 1, 0) -- cobre toda a tela
+introFrame.Position = UDim2.new(0, 0, 0, 0)
+introFrame.BackgroundColor3 = Color3.fromRGB(255, 0, 0) -- vermelho
+introFrame.Parent = screenGui
+
+local introText = Instance.new("TextLabel")
+introText.Size = UDim2.new(1, 0, 1, 0)
+introText.Position = UDim2.new(0, 0, 0, 0)
+introText.BackgroundTransparency = 1
+introText.Text = "Seja bem-vindo ao Kakah Hub"
+introText.TextColor3 = Color3.fromRGB(255, 255, 255)
+introText.TextScaled = true
+introText.Font = Enum.Font.SourceSansBold
+introText.Parent = introFrame
+
+-- Remove a tela após 7 segundos
+delay(7, function()
+    introFrame:Destroy()
+end)
+
+-- ======================
 -- Ícone para abrir/fechar hub
+-- ======================
 local hubIcon = Instance.new("TextButton")
 hubIcon.Size = UDim2.new(0, 50, 0, 50)
 hubIcon.Position = UDim2.new(0, 20, 0, 20)
-hubIcon.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- cor preta
+hubIcon.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 hubIcon.Text = "☰"
 hubIcon.TextColor3 = Color3.fromRGB(255, 255, 255)
 hubIcon.Font = Enum.Font.SourceSansBold
 hubIcon.TextScaled = true
 hubIcon.Parent = screenGui
 
--- Painel principal
+-- ======================
+-- Painel principal do Hub
+-- ======================
 local frame = Instance.new("Frame")
 frame.Size = UDim2.new(0, 900, 0, 500)
 frame.Position = UDim2.new(0.5, -450, 0.25, 0)
@@ -31,7 +59,7 @@ frame.Draggable = true
 frame.Visible = false -- começa fechado
 frame.Parent = screenGui
 
--- Estilo
+-- Estilo do Hub
 local UICorner = Instance.new("UICorner", frame)
 UICorner.CornerRadius = UDim.new(0, 12)
 
@@ -65,7 +93,7 @@ closeButton.MouseButton1Click:Connect(function()
     frame.Visible = false
 end)
 
--- Texto de boas-vindas
+-- Texto de boas-vindas dentro do hub
 local contentLabel = Instance.new("TextLabel")
 contentLabel.Size = UDim2.new(1, -20, 0, 40)
 contentLabel.Position = UDim2.new(0, 10, 0, 50)
