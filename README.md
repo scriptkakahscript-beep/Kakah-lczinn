@@ -1,4 +1,4 @@
--- LocalScript - Kakah Hub com abertura automática após introdução
+-- LocalScript - Kakah Hub com aba Fun
 
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
@@ -25,7 +25,7 @@ introText.TextScaled = true
 introText.Font = Enum.Font.SourceSansBold
 introText.Parent = introFrame
 
--- Ícone do Hub
+-- Hub Icon
 local hubIcon = Instance.new("TextButton")
 hubIcon.Size = UDim2.new(0, 50, 0, 50)
 hubIcon.Position = UDim2.new(0, 20, 0, 20)
@@ -36,14 +36,14 @@ hubIcon.Font = Enum.Font.SourceSansBold
 hubIcon.TextScaled = true
 hubIcon.Parent = screenGui
 
--- Painel do Hub
+-- Painel principal do Hub
 local frame = Instance.new("Frame")
 frame.Size = UDim2.new(0, 900, 0, 500)
 frame.Position = UDim2.new(0.5, -450, 0.25, 0)
 frame.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
 frame.Active = true
 frame.Draggable = true
-frame.Visible = false -- começa fechado
+frame.Visible = false
 frame.Parent = screenGui
 
 Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 12)
@@ -51,6 +51,7 @@ local UIStroke = Instance.new("UIStroke", frame)
 UIStroke.Thickness = 2
 UIStroke.Color = Color3.fromRGB(255, 255, 255)
 
+-- Título
 local title = Instance.new("TextLabel")
 title.Size = UDim2.new(1, -50, 0, 40)
 title.Position = UDim2.new(0, 10, 0, 0)
@@ -61,6 +62,7 @@ title.TextScaled = true
 title.Font = Enum.Font.SourceSansBold
 title.Parent = frame
 
+-- Botão fechar
 local closeButton = Instance.new("TextButton")
 closeButton.Size = UDim2.new(0, 40, 0, 40)
 closeButton.Position = UDim2.new(1, -45, 0, 5)
@@ -75,23 +77,11 @@ closeButton.MouseButton1Click:Connect(function()
     frame.Visible = false
 end)
 
-local contentLabel = Instance.new("TextLabel")
-contentLabel.Size = UDim2.new(1, -20, 0, 40)
-contentLabel.Position = UDim2.new(0, 10, 0, 50)
-contentLabel.BackgroundTransparency = 1
-contentLabel.Text = "Bem-vindo ao Kakah Hub!"
-contentLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-contentLabel.TextScaled = true
-contentLabel.TextWrapped = true
-contentLabel.Font = Enum.Font.SourceSansBold
-contentLabel.Parent = frame
-
 -- Lista dinâmica de criadores
 local creators = {"Kakah", "ajuntantes lczin", "Ninja", "Lolyta"}
-
 local creatorsLabel = Instance.new("TextLabel")
 creatorsLabel.Size = UDim2.new(1, -20, 0, 120)
-creatorsLabel.Position = UDim2.new(0, 10, 0, 100)
+creatorsLabel.Position = UDim2.new(0, 10, 0, 50)
 creatorsLabel.BackgroundTransparency = 1
 creatorsLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 creatorsLabel.TextScaled = true
@@ -100,20 +90,102 @@ creatorsLabel.Font = Enum.Font.SourceSans
 creatorsLabel.TextYAlignment = Enum.TextYAlignment.Top
 creatorsLabel.Parent = frame
 
--- Monta o texto automaticamente
 local text = "👑 Criadores:\n"
 for _, name in ipairs(creators) do
     text = text .. name .. "\n"
 end
 creatorsLabel.Text = text
 
--- Função do ícone
-hubIcon.MouseButton1Click:Connect(function()
-    frame.Visible = not frame.Visible
+-- =======================
+-- Aba lateral "Fun"
+-- =======================
+local funButton = Instance.new("TextButton")
+funButton.Size = UDim2.new(0, 100, 0, 40)
+funButton.Position = UDim2.new(0, 10, 0, 180)
+funButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+funButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+funButton.Text = "Fun"
+funButton.Font = Enum.Font.SourceSansBold
+funButton.TextScaled = true
+funButton.Parent = frame
+
+-- Painel interno da aba Fun
+local funFrame = Instance.new("Frame")
+funFrame.Size = UDim2.new(0, 880, 0, 300)
+funFrame.Position = UDim2.new(0, 10, 0, 230)
+funFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+funFrame.Visible = false
+funFrame.Parent = frame
+
+Instance.new("UICorner", funFrame).CornerRadius = UDim.new(0, 10)
+
+-- Botão Noclip
+local noclipButton = Instance.new("TextButton")
+noclipButton.Size = UDim2.new(0, 150, 0, 50)
+noclipButton.Position = UDim2.new(0, 20, 0, 20)
+noclipButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+noclipButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+noclipButton.Text = "Noclip"
+noclipButton.Font = Enum.Font.SourceSansBold
+noclipButton.TextScaled = true
+noclipButton.Parent = funFrame
+
+-- Função básica Noclip
+local noclipEnabled = false
+noclipButton.MouseButton1Click:Connect(function()
+    noclipEnabled = not noclipEnabled
+    if noclipEnabled then
+        noclipButton.Text = "Noclip ON"
+    else
+        noclipButton.Text = "Noclip OFF"
+    end
 end)
 
--- Depois de 7 segundos, remove a tela de introdução e abre o Hub automaticamente
+-- Ativar Noclip
+game:GetService("RunService").Stepped:Connect(function()
+    if noclipEnabled then
+        for _, part in ipairs(player.Character:GetDescendants()) do
+            if part:IsA("BasePart") then
+                part.CanCollide = false
+            end
+        end
+    end
+end)
+
+-- Botão Speed
+local speedButton = Instance.new("TextButton")
+speedButton.Size = UDim2.new(0, 150, 0, 50)
+speedButton.Position = UDim2.new(0, 200, 0, 20)
+speedButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+speedButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+speedButton.Text = "Speed"
+speedButton.Font = Enum.Font.SourceSansBold
+speedButton.TextScaled = true
+speedButton.Parent = funFrame
+
+-- Velocidade até 100
+local speedValue = 50
+speedButton.MouseButton1Click:Connect(function()
+    speedValue = speedValue + 10
+    if speedValue > 100 then speedValue = 16 end -- volta ao normal
+    player.Character.Humanoid.WalkSpeed = speedValue
+    speedButton.Text = "Speed: " .. speedValue
+end)
+
+-- Mostrar/ocultar a aba Fun
+funButton.MouseButton1Click:Connect(function()
+    funFrame.Visible = not funFrame.Visible
+end)
+
+-- =======================
+-- Abrir Hub automaticamente após introdução
+-- =======================
 delay(7, function()
     introFrame:Destroy()
     frame.Visible = true
+end)
+
+-- Abrir/fechar pelo ícone
+hubIcon.MouseButton1Click:Connect(function()
+    frame.Visible = not frame.Visible
 end)
