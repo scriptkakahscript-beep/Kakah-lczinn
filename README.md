@@ -1,9 +1,8 @@
--- LocalScript - Kakah Hub Completo Final com TikTok
+-- LocalScript - Kakah Hub Completo Final com TikTok funcional no Brookhaven
 
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
-local GuiService = game:GetService("GuiService")
 
 -- ScreenGui
 local screenGui = Instance.new("ScreenGui")
@@ -140,7 +139,7 @@ creditsBackButton.MouseButton1Click:Connect(function()
     creditsPage.Visible = false
 end)
 
--- Botão TikTok
+-- Botão TikTok funcional
 local tiktokButton = Instance.new("TextButton")
 tiktokButton.Size = UDim2.new(0,200,0,40)
 tiktokButton.Position = UDim2.new(1,-220,0,50)
@@ -151,7 +150,11 @@ tiktokButton.Font = Enum.Font.SourceSansBold
 tiktokButton.TextScaled = true
 tiktokButton.Parent = creditsPage
 tiktokButton.MouseButton1Click:Connect(function()
-    GuiService:OpenBrowserWindow("https://www.tiktok.com/@kaykaka2?_t=ZM-8zA4oJ0BjV8&_r=1")
+    game.StarterGui:SetCore("SendNotification", {
+        Title = "TikTok do Kakah",
+        Text = "Clique no link: https://www.tiktok.com/@kaykaka2",
+        Duration = 10
+    })
 end)
 
 creditsButton.MouseButton1Click:Connect(function()
