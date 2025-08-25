@@ -1,4 +1,4 @@
--- LocalScript - Kakah Hub com lista completa de criadores
+-- LocalScript - Kakah Hub com lista completa de criadores incluindo Kakah
 
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
@@ -87,12 +87,12 @@ contentLabel.TextWrapped = true
 contentLabel.Font = Enum.Font.SourceSansBold
 contentLabel.Parent = frame
 
--- Seção de Criadores (lista completa)
+-- Seção de Criadores (lista completa incluindo Kakah)
 local creatorsLabel = Instance.new("TextLabel")
-creatorsLabel.Size = UDim2.new(1, -20, 0, 100)
+creatorsLabel.Size = UDim2.new(1, -20, 0, 120)
 creatorsLabel.Position = UDim2.new(0, 10, 0, 100)
 creatorsLabel.BackgroundTransparency = 1
-creatorsLabel.Text = "👑 Criadores:\najuntantes lczin\nNinja\nLolyta"
+creatorsLabel.Text = "👑 Criadores:\nKakah\najuntantes lczin\nNinja\nLolyta"
 creatorsLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 creatorsLabel.TextScaled = true
 creatorsLabel.TextWrapped = true
