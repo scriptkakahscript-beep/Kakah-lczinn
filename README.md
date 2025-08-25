@@ -1,4 +1,4 @@
--- LocalScript - Kakah Hub com abas internas
+-- LocalScript - Kakah Hub com abas internas e FunPage grande
 
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
@@ -97,7 +97,7 @@ end
 creatorsLabel.Text = text
 
 -- =======================
--- Aba lateral "Fun"
+-- Aba lateral "Fun" (toggle)
 -- =======================
 local funButton = Instance.new("TextButton")
 funButton.Size = UDim2.new(0, 100, 0, 40)
@@ -109,12 +109,12 @@ funButton.Font = Enum.Font.SourceSansBold
 funButton.TextScaled = true
 funButton.Parent = frame
 
--- Frame da página Fun
+-- Frame da página Fun (mesmo tamanho do Hub e vermelho)
 local funPage = Instance.new("Frame")
-funPage.Size = UDim2.new(0, 880, 0, 300)
-funPage.Position = UDim2.new(0, 10, 0, 230)
-funPage.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-funPage.Visible = false -- começa invisível
+funPage.Size = UDim2.new(1, -20, 1, -50)  -- ocupa quase todo o Hub
+funPage.Position = UDim2.new(0, 10, 0, 50) -- abaixo do título
+funPage.BackgroundColor3 = Color3.fromRGB(255, 0, 0) -- vermelho igual o Hub
+funPage.Visible = false
 funPage.Parent = frame
 Instance.new("UICorner", funPage).CornerRadius = UDim.new(0, 10)
 
@@ -160,17 +160,16 @@ end)
 local speedValue = 50
 speedButton.MouseButton1Click:Connect(function()
     speedValue = speedValue + 10
-    if speedValue > 100 then speedValue = 16 end
+    if speedValue > 100 then speedValue = 16
     if player.Character and player.Character:FindFirstChild("Humanoid") then
         player.Character.Humanoid.WalkSpeed = speedValue
     end
     speedButton.Text = "Speed: " .. speedValue
 end)
 
--- Mostrar a página Fun e ocultar outras (se houver)
+-- Toggle da aba Fun
 funButton.MouseButton1Click:Connect(function()
-    funPage.Visible = true
-    -- aqui você poderia ocultar outras abas se existirem
+    funPage.Visible = not funPage.Visible
 end)
 
 -- Abrir Hub automaticamente após introdução
