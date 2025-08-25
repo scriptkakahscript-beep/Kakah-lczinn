@@ -42,8 +42,8 @@ frame.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
 frame.Active = true
 frame.Draggable = true
 frame.Visible = false -- começa invisível, será mostrado após introdução
-frame.Parent = screenGui
 frame.ZIndex = 5
+frame.Parent = screenGui
 
 -- Estilo do Hub
 local UICorner = Instance.new("UICorner", frame)
@@ -62,6 +62,7 @@ title.Text = "🔥 Kakah Hub"
 title.TextColor3 = Color3.fromRGB(255, 255, 255)
 title.TextScaled = true
 title.Font = Enum.Font.SourceSansBold
+title.ZIndex = 12 -- garante que fique acima do fundo
 title.Parent = frame
 
 -- Botão interno de fechar
@@ -73,6 +74,7 @@ closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 closeButton.Text = "X"
 closeButton.Font = Enum.Font.SourceSansBold
 closeButton.TextScaled = true
+closeButton.ZIndex = 13
 closeButton.Parent = frame
 
 closeButton.MouseButton1Click:Connect(function()
@@ -88,6 +90,7 @@ contentLabel.Text = "Bem-vindo ao Kakah Hub!"
 contentLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 contentLabel.TextScaled = true
 contentLabel.TextWrapped = true
+contentLabel.ZIndex = 12
 contentLabel.Parent = frame
 
 -- ======================
@@ -101,8 +104,8 @@ hubIcon.Text = "☰"
 hubIcon.TextColor3 = Color3.fromRGB(255, 255, 255)
 hubIcon.Font = Enum.Font.SourceSansBold
 hubIcon.TextScaled = true
+hubIcon.ZIndex = 14
 hubIcon.Parent = screenGui
-hubIcon.ZIndex = 12
 
 hubIcon.MouseButton1Click:Connect(function()
     frame.Visible = not frame.Visible
