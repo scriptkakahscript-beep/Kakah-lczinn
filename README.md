@@ -1,3 +1,5 @@
+--// LocalScript - Kakah Hub com tela de introdução e ícone de abrir/fechar
+
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
@@ -6,8 +8,8 @@ local playerGui = player:WaitForChild("PlayerGui")
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "KakahHubGUI"
 screenGui.ResetOnSpawn = false
+screenGui.IgnoreGuiInset = true
 screenGui.Parent = playerGui
-screenGui.IgnoreGuiInset = true -- garante que fique no topo
 
 -- ======================
 -- Tela de introdução
@@ -16,7 +18,7 @@ local introFrame = Instance.new("Frame")
 introFrame.Size = UDim2.new(1, 0, 1, 0)
 introFrame.Position = UDim2.new(0, 0, 0, 0)
 introFrame.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-introFrame.ZIndex = 10 -- fica acima de tudo
+introFrame.ZIndex = 10
 introFrame.Parent = screenGui
 
 local introText = Instance.new("TextLabel")
@@ -27,29 +29,8 @@ introText.Text = "Seja bem-vindo ao Kakah Hub"
 introText.TextColor3 = Color3.fromRGB(255, 255, 255)
 introText.TextScaled = true
 introText.Font = Enum.Font.SourceSansBold
-introText.ZIndex = 11 -- acima do Frame
+introText.ZIndex = 11
 introText.Parent = introFrame
-
--- Remove a tela após 7 segundos
-task.delay(7, function()
-    if introFrame then
-        introFrame:Destroy()
-    end
-end)
-
--- ======================
--- Ícone para abrir/fechar hub
--- ======================
-local hubIcon = Instance.new("TextButton")
-hubIcon.Size = UDim2.new(0, 50, 0, 50)
-hubIcon.Position = UDim2.new(0, 20, 0, 20)
-hubIcon.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-hubIcon.Text = "☰"
-hubIcon.TextColor3 = Color3.fromRGB(255, 255, 255)
-hubIcon.Font = Enum.Font.SourceSansBold
-hubIcon.TextScaled = true
-hubIcon.Parent = screenGui
-hubIcon.ZIndex = 12 -- acima da tela de introdução
 
 -- ======================
 -- Painel principal do Hub
@@ -60,7 +41,7 @@ frame.Position = UDim2.new(0.5, -450, 0.25, 0)
 frame.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
 frame.Active = true
 frame.Draggable = true
-frame.Visible = false
+frame.Visible = false -- começa invisível, será mostrado após introdução
 frame.Parent = screenGui
 frame.ZIndex = 5
 
@@ -109,7 +90,30 @@ contentLabel.TextScaled = true
 contentLabel.TextWrapped = true
 contentLabel.Parent = frame
 
--- Função para abrir/fechar pelo ícone
+-- ======================
+-- Ícone para abrir/fechar hub
+-- ======================
+local hubIcon = Instance.new("TextButton")
+hubIcon.Size = UDim2.new(0, 50, 0, 50)
+hubIcon.Position = UDim2.new(0, 20, 0, 20)
+hubIcon.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+hubIcon.Text = "☰"
+hubIcon.TextColor3 = Color3.fromRGB(255, 255, 255)
+hubIcon.Font = Enum.Font.SourceSansBold
+hubIcon.TextScaled = true
+hubIcon.Parent = screenGui
+hubIcon.ZIndex = 12
+
 hubIcon.MouseButton1Click:Connect(function()
     frame.Visible = not frame.Visible
+end)
+
+-- ======================
+-- Remove a tela de introdução após 7 segundos e mostra o hub
+-- ======================
+task.delay(7, function()
+    if introFrame then
+        introFrame:Destroy()
+    end
+    frame.Visible = true -- abre o hub automaticamente
 end)
