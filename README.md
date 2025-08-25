@@ -1,4 +1,4 @@
--- LocalScript - Kakah Hub Completo com Voltar na FunPage
+-- LocalScript - Kakah Hub Completo com FunPage e AvatarPage
 
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
@@ -117,10 +117,10 @@ funPage.Visible = false
 funPage.Parent = frame
 Instance.new("UICorner", funPage).CornerRadius = UDim.new(0,10)
 
--- Botão Voltar dentro da FunPage
+-- Botão Voltar FunPage
 local backButton = Instance.new("TextButton")
 backButton.Size = UDim2.new(0,100,0,40)
-backButton.Position = UDim2.new(1,-120,0,10) -- canto superior direito
+backButton.Position = UDim2.new(1,-120,0,10)
 backButton.BackgroundColor3 = Color3.fromRGB(0,0,0)
 backButton.TextColor3 = Color3.fromRGB(255,255,255)
 backButton.Text = "Voltar"
@@ -132,7 +132,7 @@ backButton.MouseButton1Click:Connect(function()
     funPage.Visible = false
 end)
 
--- Botões Noclip e Speed dentro da FunPage
+-- Botões Noclip e Speed na FunPage
 local noclipButton = Instance.new("TextButton")
 noclipButton.Size = UDim2.new(0,150,0,50)
 noclipButton.Position = UDim2.new(0,20,0,70)
@@ -181,12 +181,54 @@ speedButton.MouseButton1Click:Connect(function()
     speedButton.Text = "Speed: "..speedValue
 end)
 
--- Toggle da aba Fun
+-- Toggle FunPage
 funButton.MouseButton1Click:Connect(function()
     funPage.Visible = not funPage.Visible
 end)
 
--- Abrir Hub automaticamente após introdução
+-- ---------------------
+-- Aba Avatar
+-- ---------------------
+local avatarButton = Instance.new("TextButton")
+avatarButton.Size = UDim2.new(0,100,0,40)
+avatarButton.Position = UDim2.new(0,10,0,230)
+avatarButton.BackgroundColor3 = Color3.fromRGB(0,0,0)
+avatarButton.TextColor3 = Color3.fromRGB(255,255,255)
+avatarButton.Text = "Avatar"
+avatarButton.Font = Enum.Font.SourceSansBold
+avatarButton.TextScaled = true
+avatarButton.Parent = frame
+
+-- AvatarPage
+local avatarPage = Instance.new("Frame")
+avatarPage.Size = UDim2.new(1,-20,1,-50)
+avatarPage.Position = UDim2.new(0,10,0,50)
+avatarPage.BackgroundColor3 = Color3.fromRGB(255,0,0)
+avatarPage.Visible = false
+avatarPage.Parent = frame
+Instance.new("UICorner", avatarPage).CornerRadius = UDim.new(0,10)
+
+-- Botão Voltar AvatarPage
+local avatarBackButton = Instance.new("TextButton")
+avatarBackButton.Size = UDim2.new(0,100,0,40)
+avatarBackButton.Position = UDim2.new(1,-120,0,10)
+avatarBackButton.BackgroundColor3 = Color3.fromRGB(0,0,0)
+avatarBackButton.TextColor3 = Color3.fromRGB(255,255,255)
+avatarBackButton.Text = "Voltar"
+avatarBackButton.Font = Enum.Font.SourceSansBold
+avatarBackButton.TextScaled = true
+avatarBackButton.Parent = avatarPage
+
+avatarBackButton.MouseButton1Click:Connect(function()
+    avatarPage.Visible = false
+end)
+
+-- Toggle AvatarPage
+avatarButton.MouseButton1Click:Connect(function()
+    avatarPage.Visible = not avatarPage.Visible
+end)
+
+-- Abrir Hub após introdução
 delay(7,function()
     introFrame:Destroy()
     frame.Visible = true
